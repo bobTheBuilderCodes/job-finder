@@ -1,13 +1,14 @@
 import { Banner, Jobs, Navbar } from "../components";
+import UploadJob from "../components/UploadJob";
 
-const Home = () => {
+const UploadJobs = () => {
   return (
     <main>
       <Navbar />
       <Banner />
-      <Jobs />
+     <UploadJob />
     </main>
   );
 };
 
-export default Home;
+export default UploadJobs;
