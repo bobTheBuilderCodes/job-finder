@@ -1,7 +1,7 @@
 const JobCard = () => {
   return (
     <section className="bg-white px-4 py-8 m-6 shadow-md shadow-gray-100 flex  rounded-lg">
-      <div className="bg-green-600 max-h-10 min-w-10 rounded-md mr-4 font-bold text-xl flex justify-center items-center text-white">
+      <div className="bg-[#007AA9] max-h-10 min-w-10 rounded-md mr-4 font-bold text-xl flex justify-center items-center text-white">
         U
       </div>
       <div >

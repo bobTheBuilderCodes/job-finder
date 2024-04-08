@@ -3,7 +3,7 @@ import { NavLink, redirect } from "react-router-dom";
 const Navbar = () => {
 
   const pending= "p-3 hover:bg-gray-100"
-  const active = "p-3 hover:bg-gray-100 border-b-4 border-green-600"
+  const active = "p-3 hover:bg-gray-100 border-b-4 border-[#007AA9]"
   return (
     <nav className="h-[8vh] px-4 border-2 border-gray-100 flex justify-between items-center">
       <NavLink to={'/jobs'}>
