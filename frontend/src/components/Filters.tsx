@@ -2,7 +2,7 @@ import React from "react";
 
 const Filters = () => {
   return (
-    <div className="shadow-md shadow-gray-100 p-6 m-6 bg-white">
+    <div className="shadow-md shadow-gray-100 p-6 m-6 bg-white fixed">
       <div className="flex justify-between items-center border-b-2 border-gray-100 mb-4">
         <h1 className="font-bold text-lg font-gray-900 mb-5">Filter</h1>
         <h1 className="font-medium text-md text-red-500 mb-5 ">Clear All</h1>

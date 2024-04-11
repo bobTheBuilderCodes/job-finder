@@ -1,6 +1,6 @@
 const Interview = () => {
   return (
-    <div className="shadow-md shadow-gray-100 p-6 m-6 bg-white">
+    <div className="shadow-md shadow-gray-100 p-6 m-6 bg-white fixed">
       <div className="flex justify-between items-center border-b-2 border-gray-100 mb-4">
         <h1 className="font-bold text-lg font-gray-900 mb-5">My Interviews</h1>
         <h1 className="font-medium text-md text-blue-500 mb-5 ">See All</h1>
@@ -13,7 +13,7 @@ const Interview = () => {
         <div>
           <div className="flex justify-between">
             <h1 className="font-medium text-lg font-gray-900 mb-3">
-             DSA Interview
+             DSA Interview Prepa...
             </h1>
           </div>
           <span className="bg-gray-100 px-2 py-1 mt-6 max-w-auto text-sm text-gray-700">

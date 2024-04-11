@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 input:checked{
-    accent-color: green;
+    accent-color: #007AA9;
 }
