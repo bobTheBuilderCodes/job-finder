@@ -6,6 +6,7 @@ import JobCard from "./JobCard";
 import { useGetJobQuery, useGetJobsQuery } from "../services/jobs";
 
 interface jobDetails {
+  _id: string
   job_title: string;
   city: string;
   country: string;
@@ -29,8 +30,8 @@ const Jobs = () => {
       <section className="w-2/4">
         <GlobalSearch />
         {jobs?.map(
-          ({ job_title, city, country, working_type, job_type, job_description , createdAt}) => (
-            <JobCard
+          ({ _id, job_title, city, country, working_type, job_type, job_description , createdAt}) => (
+            <JobCard key={_id}
               job_title={job_title}
               city={city}
               country={country}
