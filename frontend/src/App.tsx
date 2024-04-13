@@ -1,6 +1,5 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
-import Layout from './Layout'
 import JobsPosted from './views/JobsPosted'
 import Talents from './views/Talents'
 import Applications from './views/Applications'
