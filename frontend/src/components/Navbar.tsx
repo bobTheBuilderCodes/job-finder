@@ -42,14 +42,14 @@ const Navbar = () => {
         >
           My Applications
         </NavLink>
-        {/* <li className="p-3 hover:bg-gray-100 rounded-lg">Upload Job</li> */}
+        
         <NavLink
           to="/upload-jobs"
           className={({ isActive, isPending }) =>
             isActive ? active : pending
           }
         >
-          Upload Job
+          Post Job
         </NavLink>
         
       </ul>
