@@ -27,10 +27,10 @@ export const getJobs = async (req: Request, res: Response) => {
 
 export const jobsByUser = async(req: Request, res: Response) => {
     try {
-        const id = req.params.id;  // Retrieve the user ID from the route parameter
-        console.log("User ID", id)
-        // Find all jobs where the 'user' field matches the id provided
-        const jobs = await Jobs.find({ user: id }).sort({createdAt: -1});  // Adding sorting to get the latest jobs first
+        const {id} = req.params;  
+        
+       
+        const jobs = await Jobs.find({ user: id }).sort({createdAt: -1});  
 
         if (jobs.length === 0) {
             return res.status(NOT_FOUND).json({

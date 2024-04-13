@@ -49,7 +49,7 @@ const Navbar = () => {
             isActive ? active : pending
           }
         >
-          Post Job
+         My Jobs
         </NavLink>
         
       </ul>
