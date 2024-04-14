@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Filters from "./Filters";
 import GlobalSearch from "./GlobalSearch";
-import Interview from "./Interview";
+import Interview from "../shared/Interview";
 import JobCard from "./JobCard";
-import { useGetJobQuery, useGetJobsQuery } from "../services/jobs";
+import { useGetJobQuery, useGetJobsQuery } from "../../services/jobs";
 
 interface jobDetails {
   _id: string

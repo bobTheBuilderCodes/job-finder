@@ -92,7 +92,7 @@ const ApplyForJobForms: React.FC<ApplyForJobFormsProps> = ({
           onClick={(e) => setPageView(!pageView)}
           className="bg-green-600 font-bold px-6 py-2 text-white text-lg rounded-lg transition-colors duration-300 hover:bg-green-800"
         >
-          Submit
+         Apply For Job
         </button>
       </div>
     </form>

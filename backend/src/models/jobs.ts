@@ -16,12 +16,12 @@ const JobsSchema = new Schema({
     job_type: {
         type: String,
         required: true,
-        enum: ['fulltime', 'part-time', 'internship', 'volunteer']
+        enum: ['Full-time', 'Part-time', 'Internship', 'Volunteer']
     },
     working_type: {
         type: String,
         required: true,
-        enum: ['hybrid', 'remote', 'onsite']
+        enum: ['Hybrid', 'Remote', 'On-site']
     },
     salary: {
         type: String ,

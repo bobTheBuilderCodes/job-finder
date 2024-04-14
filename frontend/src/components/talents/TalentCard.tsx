@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
+import Modal from "../shared/Modal";
 
 const TalentCard = () => {
   const [toggleModal, setToggleModal] = useState(false);

@@ -1,5 +1,5 @@
 import { Banner, Jobs, Navbar } from "../components";
-import Application from "../components/Application";
+import Application from "../components/applications/Application";
 
 const Applications = () => {
   return (
