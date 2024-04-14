@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Interview from "./Interview";
+import Interview from "../shared/Interview";
 import NewJobForms from "./NewJobForms";
 
 const UploadJob = () => {

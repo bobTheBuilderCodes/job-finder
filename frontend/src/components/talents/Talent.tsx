@@ -1,5 +1,6 @@
-import ApplicationCard from "./ApplicationCard";
-import Interview from "./Interview";
+
+import Interview from "../shared/Interview";
+import TalentCard from "./TalentCard";
 
 const Application = () => {
   return (
@@ -15,9 +16,9 @@ const Application = () => {
         <div className="relative m-6">
           <select className="appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-full">
             <option>All</option>
-            <option>Pending Review</option>
-            <option>Invited for Interview</option>
-            <option>Rejected</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Experienced</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
             <svg
@@ -29,15 +30,15 @@ const Application = () => {
             </svg>
           </div>
         </div>
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
+        <TalentCard />
       </section>
       <aside className="w-1/4">
         <Interview />
