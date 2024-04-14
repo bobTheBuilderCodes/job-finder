@@ -40,7 +40,7 @@ const JobCard = ({
             </h1>
             <div>
               <h1 className="font-medium text-md text-gray-500 text-end">
-                {city} {country && `,${country}`}
+                {city} {country && `, ${country}`}
               </h1>
               <p className="text-gray-400 text-sm list-disc text-end">
                 {" "}
