@@ -11,13 +11,13 @@ interface UserState {
   isLoggedIn: boolean;
 }
 
-// Function to load initial user data from local storage
+
 const loadInitialState = (): UserState => {
   const userString = localStorage.getItem('user');
   if (userString) {
     const userData: UserData = JSON.parse(userString);
-    console.log("Gotten user data", userData);
-    // Check for presence of token to ensure user is considered logged in
+  
+   
     return {
       userData,
       isLoggedIn: !!userData.token,
@@ -37,7 +37,7 @@ const userSlice = createSlice({
       state.userData = action.payload;
       state.isLoggedIn = Boolean(action.payload && action.payload.token);
 
-      // Store the entire user object in local storage as a JSON string
+      
       if (action.payload && action.payload.token) {
         localStorage.setItem('user', JSON.stringify(action.payload));
       } else {

@@ -1,6 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-// import * as jwtDecode from 'jwt-decode';
-// import jwtDecode from 'jwt-decode';
+
 import { parseISO, formatDistanceToNow } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -8,9 +7,9 @@ import { RootState } from '../app/store';
 import { useEffect } from 'react';
 
 /**
- * Converts an ISO string date to a relative time format like '4 minutes ago'.
- * @param isoDate The ISO string date from the backend.
- * @returns The formatted relative time string.
+ 
+ * @param isoDate 
+ * @returns 
  */
 export function formatCreatedAt(isoDate: string): string {
   if (!isoDate) {
@@ -26,16 +25,7 @@ export function formatCreatedAt(isoDate: string): string {
   }
 }
 
-// export function isAuthenticated() {
-//   const token = localStorage.getItem('userToken');
-//   if (!token) {
-//       return false;
-//   }
 
-//   // Optionally verify token validity if possible (e.g., check token expiration for JWT)
-//   // For simplicity, we assume here the token, if present, is valid
-//   return true;
-// }
 
 
 export const toastify = (message: string, options = {}) => {
