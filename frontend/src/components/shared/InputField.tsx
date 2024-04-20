@@ -1,7 +1,7 @@
 // InputField.tsx
 interface InputFieldProps {
   name: string;
-  label: string;
+  label?: string;
   type?: "text" | "textarea" | "select";
   options?: string[];
   placeholder?: string;
@@ -41,7 +41,7 @@ const InputField: React.FC<InputFieldProps> = ({
       ) : inputType === "select" ? (
         <select
           name={name}
-          className="bg-white outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-full"
+          className="bg-white outline-1 py-3 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-full"
           value={value}
           onChange={onChange}
         >

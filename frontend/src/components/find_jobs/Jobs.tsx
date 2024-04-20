@@ -1,11 +1,10 @@
-import { useState } from "react";
+
 import Filters from "./Filters";
 import GlobalSearch from "./GlobalSearch";
 import Interview from "../shared/Interview";
 import JobCard from "./JobCard";
-import { useGetJobQuery, useGetJobsQuery } from "../../services/jobs";
+import { useGetJobsQuery } from "../../services/jobs";
 import Loader from "../shared/Loader";
-import Table from "../shared/Table";
 
 interface jobDetails {
   _id: string;

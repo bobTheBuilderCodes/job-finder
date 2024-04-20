@@ -7,9 +7,19 @@ import { toast } from 'react-toastify';
  * @returns The formatted relative time string.
  */
 export function formatCreatedAt(isoDate: string): string {
-    const date: Date = parseISO(isoDate);
-    return formatDistanceToNow(date, { addSuffix: true });
+  if (!isoDate) {
+      return "Date not available"; // Return a default or a placeholder text
+  }
+
+  try {
+      const date: Date = parseISO(isoDate);
+      return formatDistanceToNow(date, { addSuffix: true });
+  } catch (error) {
+      console.error("Error parsing date:", error);
+      return "Invalid date"; // Handle parsing errors gracefully
+  }
 }
+
 
 export const toastify = (message: string, options = {}) => {
   toast(message, {

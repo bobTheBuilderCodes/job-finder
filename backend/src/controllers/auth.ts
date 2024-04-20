@@ -6,7 +6,7 @@ import {
   INTERNAL_SERVER_ERROR,
   CONFLICT,
   OK,
-} from "../utils/response";
+} from "../utils/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

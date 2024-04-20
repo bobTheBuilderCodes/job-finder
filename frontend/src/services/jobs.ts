@@ -1,4 +1,4 @@
-// Import necessary dependencies
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASEURL } from "./endpoints";
 
@@ -9,7 +9,7 @@ const getAuthToken = () => {
 
 
 export const jobsAPI = createApi({
-  reducerPath: "jobsAPI",
+  reducerPath: 'jobsAPI',
   baseQuery: fetchBaseQuery({
     baseUrl: BASEURL,
     prepareHeaders: (headers, { getState }) => {
@@ -20,20 +20,27 @@ export const jobsAPI = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Jobs'], 
   endpoints: (builder) => ({
-    // Your endpoint definitions...
     getJobs: builder.query({
       query: () => `/jobs/`,
+      providesTags: ['Jobs'], 
+    }),
+    getJobsByUser: builder.query({
+      query: () => `/jobs/user/661a7440f34ab18c9e35fcb2`,
+      providesTags: ['Jobs'],
     }),
     getJob: builder.query({
       query: (id) => `/job/${id}`,
+      providesTags: ['Jobs'],
     }),
     updateJob: builder.mutation({
       query: (updateJob) => ({
-        url: `/job/${updateJob.id}`,
+        url: `/job/${updateJob._id}`,
         method: "PUT",
         body: updateJob,
       }),
+      invalidatesTags: ['Jobs'],
     }),
     postJob: builder.mutation({
       query: (newJob) => ({
@@ -41,12 +48,21 @@ export const jobsAPI = createApi({
         method: "POST",
         body: newJob,
       }),
+      invalidatesTags: ['Jobs'], 
     }),
+    deleteJob: builder.mutation({
+      query: (payload) => ({
+        url: `/job/${payload._id}`,
+        method: "DELETE",
+        body: payload
+      }), 
+      invalidatesTags: ['Jobs']
+    })
   }),
 });
 
 
-// Export the hooks for the API endpoints
 export const {
-  useGetJobQuery, useGetJobsQuery, useUpdateJobMutation, usePostJobMutation
+  useGetJobQuery, useGetJobsByUserQuery, useGetJobsQuery, useUpdateJobMutation, usePostJobMutation, useDeleteJobMutation
 } = jobsAPI;
+;

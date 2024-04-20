@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { Users } from "../models/users";
-import { BAD_REQUEST, CREATED, INTERNAL_SERVER_ERROR , CONFLICT, OK} from "../utils/response";
+import { CREATED, INTERNAL_SERVER_ERROR , OK} from "../utils/index";
 
 
 
 export const getUsers = async (req: Request, res: Response) => {
   const users = await Users.find({}).select("-password")
   res.status(OK).json({
-    message: "Users fetched successfully",
+    message: "Users fetched successfully.",
     users
   })
 }

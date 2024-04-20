@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, children}) => {
           >
        <AiFillCloseCircle />
           </button>
-          <div className="modal-content text-gray-100 w-[90vw] h-[92vh] overflow-y-auto ">{children}</div>
+          <div className="modal-content text-gray-100 h-[92vh] overflow-y-auto ">{children}</div>
         </div>
       </div>
     </div>
