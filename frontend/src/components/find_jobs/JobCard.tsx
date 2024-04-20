@@ -40,7 +40,7 @@ const JobCard = ({
             </h1>
             <div>
               <h1 className="font-medium text-md text-gray-500 text-end">
-                {city} {country && `,${country}`}
+                {city} {country && `, ${country}`}
               </h1>
               <p className="text-gray-400 text-sm list-disc text-end">
                 {" "}
@@ -62,7 +62,7 @@ const JobCard = ({
         key={Math.random()}
         onClose={() => setToggleModal(false)}
       >
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <div className="grid w-[90vw] grid-cols-1 gap-10 md:grid-cols-3">
           {" "}
           {/* Specify grid columns */}
           <div className="md:col-span-2">

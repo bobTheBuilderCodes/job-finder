@@ -6,7 +6,7 @@ import {
   INTERNAL_SERVER_ERROR,
   CONFLICT,
   OK,
-} from "../utils/response";
+} from "../utils/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -99,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
       userDetails: {
         token,
         userId: user?._id,
-        fullname,
+        fullname: user?.fullname,
       },
     });
   } catch (error) {

@@ -6,7 +6,7 @@ import {
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   OK,
-} from "../utils/response";
+} from "../utils/index";
 import mongoose from "mongoose";
 
 export const getJobs = async (req: Request, res: Response) => {
@@ -153,6 +153,12 @@ export const updateJob = async (req: Request, res: Response) => {
       });
     }
 
+    if (existingJob.user.toString() !== user) {
+      return res.status(BAD_REQUEST).json({
+        message: "You do not have permission to edit this job."
+      });
+    }
+
     const updatedJob = await Jobs.findByIdAndUpdate(id, req.body, {
         new: true,
         runValidators: true
@@ -174,6 +180,7 @@ export const updateJob = async (req: Request, res: Response) => {
 export const deleteJob = async(req: Request, res: Response) => {
     try {
         const {id} = req.params
+        const {user} = req.body;
 
         const existingJob = await Jobs.findById(id)
 
@@ -181,6 +188,12 @@ export const deleteJob = async(req: Request, res: Response) => {
             return res.status(NOT_FOUND).json({
                 message: "Job does not exist"
             })
+        }
+
+        if (existingJob.user.toString() !== user) {
+          return res.status(BAD_REQUEST).json({
+            message: "You do not have permission to edit this job."
+          });
         }
 
         await Jobs.findByIdAndDelete(id)

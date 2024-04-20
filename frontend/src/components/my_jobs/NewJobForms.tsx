@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { usePostJobMutation } from "../../services/jobs";
-import { toastify } from "../../helpers";
+import UserDetails, { toastify } from "../../helpers";
 import InputField from "../shared/InputField";
 import { useNavigate } from "react-router-dom";
 
@@ -12,13 +12,15 @@ interface JobData {
   working_type: string;
   salary: string;
   job_description: string;
-  user: string;
+  user: string | number | undefined;
 }
 
 const NewJobForms: React.FC<{
   pageView: boolean;
   setPageView: (view: boolean) => void;
 }> = ({ setPageView }) => {
+
+  const {loggedinUser} = UserDetails()
   const [formData, setFormData] = useState<JobData>({
     job_title: "",
     country: "",
@@ -27,7 +29,7 @@ const NewJobForms: React.FC<{
     working_type: "",
     salary: "",
     job_description: "",
-    user: "661a7440f34ab18c9e35fcb2",
+    user: loggedinUser.userId,
   });
 
   const handleChange = (
@@ -43,8 +45,7 @@ const NewJobForms: React.FC<{
     }));
   };
 
-  const [postJob, { isLoading, isSuccess, isError, error }] =
-    usePostJobMutation();
+  const [postJob] = usePostJobMutation();
 
     const navigate = useNavigate()
 
@@ -149,13 +150,13 @@ const NewJobForms: React.FC<{
         <button
           type="button"
           onClick={() => setPageView(false)}
-          className="border-2 border-green-600 mx-6 font-bold px-6 py-2 text-green-600 text-lg rounded-lg transition-colors duration-300 hover:bg-green-600 hover:text-white"
+          className="border-2 border-[#007AA9] mx-6 font-bold px-6 py-2 text-[#007AA9] text-lg rounded-lg transition-colors duration-300 hover:bg-[#007AA9] hover:text-white"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="bg-green-600 font-bold px-6 py-2 text-white text-lg rounded-lg transition-colors duration-300 hover:bg-green-800"
+          className="bg-[#007AA9] font-bold px-6 py-2 text-white text-lg rounded-lg "
         >
           Submit
         </button>

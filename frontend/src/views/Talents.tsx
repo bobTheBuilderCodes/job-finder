@@ -1,4 +1,4 @@
-import { Banner, Jobs, Navbar } from "../components";
+import { Banner, Navbar } from "../components";
 import Talent from "../components/talents/Talent";
 
 const Talents = () => {
