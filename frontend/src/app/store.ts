@@ -5,12 +5,14 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { jobsAPI } from '../services/jobs';
 import userSlice from './userSlice';
 import { countriesAPI } from '../services/helpers';
+import { authAPI } from '../services/auth';
 
 
 // Combine the reducers
 const rootReducer = combineReducers({
   user: userSlice,
   [jobsAPI.reducerPath]: jobsAPI.reducer,
+  [authAPI.reducerPath]: authAPI.reducer,
   [countriesAPI.reducerPath]: countriesAPI.reducer,
 });
 
@@ -18,7 +20,7 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([jobsAPI.middleware, countriesAPI.middleware]),
+    getDefaultMiddleware().concat([jobsAPI.middleware, countriesAPI.middleware, authAPI.middleware]),
 });
 
 // Optional: Add the RTK Query setupListeners function to the store to enable automatic cache synchronization and lifecycle hooks

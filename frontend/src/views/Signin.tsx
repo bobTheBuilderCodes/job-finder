@@ -40,6 +40,7 @@ const Signin = () => {
       const response = await login(formData).unwrap();
       console.log("Res from signin", response);
       dispatch(setUser(response.userDetails));
+      localStorage.setItem("user", JSON.stringify(response.userDetails))
       toastify(response.message, { type: "success" });
       navigate("/jobs")
     } catch (err: any) {
