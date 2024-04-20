@@ -10,7 +10,7 @@ import {
 import InputField from "../shared/InputField";
 import Modal from "../shared/Modal";
 import { useNavigate } from "react-router-dom";
-import { toastify } from "../../helpers";
+import UserDetails, { toastify } from "../../helpers";
 
 type DropdownOption = {
   label: string | JSX.Element;
@@ -26,13 +26,14 @@ interface JobData {
   salary: string;
   job_description: string;
   _id: string;
-  user: string;
+  user: string | number | undefined;
 }
 
 const UploadJob = () => {
   const [pageView, setPageView] = useState(false);
   const [toggleModal, setToggleModal] = useState(false);
   const [selectedWorkingType, setSelectedWorkingType] = useState("All");
+  const {loggedinUser} = UserDetails()
   // Search filters
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -45,7 +46,7 @@ const UploadJob = () => {
     salary: "",
     job_description: "",
     _id: "",
-    user: "661a7440f34ab18c9e35fcb2",
+    user: loggedinUser.userId,
   });
 
   const {
@@ -59,7 +60,8 @@ const UploadJob = () => {
     job_description,
   } = formData;
 
-  const { data } = useGetJobsByUserQuery("");
+ 
+  const { data } = useGetJobsByUserQuery(loggedinUser.userId);
   const [deleteJob] = useDeleteJobMutation();
 
   const fetchedJobs: JobData[] = data?.jobs;

@@ -8,8 +8,8 @@ const getAuthToken = () => {
 };
 
 
-export const jobsAPI = createApi({
-  reducerPath: 'jobsAPI',
+export const authAPI = createApi({
+  reducerPath: 'authAPI',
   baseQuery: fetchBaseQuery({
     baseUrl: BASEURL,
     prepareHeaders: (headers, { getState }) => {
@@ -20,19 +20,19 @@ export const jobsAPI = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Jobs'], 
+  tagTypes: ['Auth'], 
   endpoints: (builder) => ({
-    getJobs: builder.query({
+    getUsers: builder.query({
       query: () => `/jobs/`,
-      providesTags: ['Jobs'], 
+      providesTags: ['Auth'], 
     }),
     getJobsByUser: builder.query({
       query: (id) => `/jobs/user/${id}`,
-      providesTags: ['Jobs'],
+      providesTags: ['Auth'],
     }),
     getJob: builder.query({
       query: (id) => `/job/${id}`,
-      providesTags: ['Jobs'],
+      providesTags: ['Auth'],
     }),
     updateJob: builder.mutation({
       query: (updateJob) => ({
@@ -40,29 +40,32 @@ export const jobsAPI = createApi({
         method: "PUT",
         body: updateJob,
       }),
-      invalidatesTags: ['Jobs'],
+      invalidatesTags: ['Auth'],
     }),
-    postJob: builder.mutation({
-      query: (newJob) => ({
-        url: "/job",
+
+    // Sign up and log in
+    signup: builder.mutation({
+      query: (newUser) => ({
+        url: "/signup",
         method: "POST",
-        body: newJob,
+        body: newUser,
       }),
-      invalidatesTags: ['Jobs'], 
+      invalidatesTags: ['Auth'], 
     }),
-    deleteJob: builder.mutation({
-      query: (payload) => ({
-        url: `/job/${payload._id}`,
-        method: "DELETE",
-        body: payload
-      }), 
-      invalidatesTags: ['Jobs']
-    })
+    login: builder.mutation({
+      query: (user) => ({
+        url: "/login",
+        method: "POST",
+        body: user,
+      }),
+      invalidatesTags: ['Auth'], 
+    }),
+    
   }),
 });
 
 
 export const {
-  useGetJobQuery, useGetJobsByUserQuery, useGetJobsQuery, useUpdateJobMutation, usePostJobMutation, useDeleteJobMutation
-} = jobsAPI;
+ useSignupMutation, useLoginMutation
+} = authAPI;
 ;

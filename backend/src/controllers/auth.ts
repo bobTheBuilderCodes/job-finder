@@ -99,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
       userDetails: {
         token,
         userId: user?._id,
-        fullname,
+        fullname: user?.fullname,
       },
     });
   } catch (error) {

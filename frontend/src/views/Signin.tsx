@@ -1,11 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import section from "../assets/section.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import InputField from "../components/shared/InputField";
+import { useLoginMutation } from "../services/auth";
+import { toastify } from "../helpers";
+import { useDispatch } from "react-redux";
+import { setUser } from "../app/userSlice";
 
 const Signin = () => {
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const [login] = useLoginMutation()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+
+  const loginHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await login(formData).unwrap();
+      console.log("Res from signin", response);
+      dispatch(setUser(response.userDetails));
+      toastify(response.message, { type: "success" });
+      navigate("/jobs")
+    } catch (err: any) {
+      if (err.data && err.data.message) {
+        toastify(err.data.message, { type: "error" });
+      } else if (err.status === "FETCH_ERROR") {
+        toastify("Network error: Unable to connect to the server", {
+          type: "error",
+        });
+      } else {
+        toastify("An unexpected error occurred", { type: "error" });
+      }
+    }
+   
+  };
+
+
   return (
     <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col">
+      <form className="w-1/2 flex p-24 flex-col" onSubmit={loginHandler}>
         <img
           width={165}
           className="rounded-full cursor-pointer"
@@ -16,30 +70,24 @@ const Signin = () => {
           Glad you're here, log in!
         </h1>
         <p className="text-gray-500 mb-6">Enter email and password to log in</p>
-        <div className="flex flex-col">
-          <label
-            htmlFor="email"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-            Email
-          </label>
-          <input
-            placeholder="Eg. philomena@gmail.com"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
-        <div className="flex flex-col mt-6">
-          <label
-            htmlFor="password"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-            Password
-          </label>
-          <input
-            placeholder="Eg. kfga90eR4I459r"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
+        
+        <InputField
+          name="email"
+          label="Email"
+          placeholder="E.g. yaa.asantewah@gmail.com"
+          value={email}
+          className="mt-9"
+          onChange={handleChange}
+        />
+        <InputField
+          name="password"
+          label="Password"
+          placeholder="E.g. ************"
+          type="password"
+          value={password}
+          className="mt-9"
+          onChange={handleChange}
+        />
         <div className="flex justify-between">
           <NavLink to={"/signup"}>
             <p className="text-gray-500 mt-6 text-center mx-0 px-0">
@@ -54,7 +102,7 @@ const Signin = () => {
             </p>
           </NavLink>
         </div>
-        <button className="bg-[#007AA9] w-[500px] mt-8 p-5 rounded-lg font-bold text-white text-xl">
+        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl">
           Sign in
         </button>
       </form>

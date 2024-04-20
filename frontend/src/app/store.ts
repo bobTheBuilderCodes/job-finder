@@ -3,11 +3,13 @@ import { combineReducers } from 'redux';
 
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { jobsAPI } from '../services/jobs';
+import userSlice from './userSlice';
 import { countriesAPI } from '../services/helpers';
 
 
 // Combine the reducers
 const rootReducer = combineReducers({
+  user: userSlice,
   [jobsAPI.reducerPath]: jobsAPI.reducer,
   [countriesAPI.reducerPath]: countriesAPI.reducer,
 });

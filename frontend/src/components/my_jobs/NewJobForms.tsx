@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { usePostJobMutation } from "../../services/jobs";
-import { toastify } from "../../helpers";
+import UserDetails, { toastify } from "../../helpers";
 import InputField from "../shared/InputField";
 import { useNavigate } from "react-router-dom";
 
@@ -12,13 +12,15 @@ interface JobData {
   working_type: string;
   salary: string;
   job_description: string;
-  user: string;
+  user: string | number | undefined;
 }
 
 const NewJobForms: React.FC<{
   pageView: boolean;
   setPageView: (view: boolean) => void;
 }> = ({ setPageView }) => {
+
+  const {loggedinUser} = UserDetails()
   const [formData, setFormData] = useState<JobData>({
     job_title: "",
     country: "",
@@ -27,7 +29,7 @@ const NewJobForms: React.FC<{
     working_type: "",
     salary: "",
     job_description: "",
-    user: "661a7440f34ab18c9e35fcb2",
+    user: loggedinUser.userId,
   });
 
   const handleChange = (

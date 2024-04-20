@@ -2,7 +2,7 @@
 interface InputFieldProps {
   name: string;
   label?: string;
-  type?: "text" | "textarea" | "select";
+  type?: "text" | "textarea" | "select" | "password";
   options?: string[];
   placeholder?: string;
   value: string;
@@ -26,7 +26,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
 }) => {
   const inputType =
-    type === "textarea" ? "textarea" : type === "select" ? "select" : "input";
+    type === "textarea" ? "textarea" : type === "select" ? "select" : "input" ;
   return (
     <div className={`flex flex-col ${className}`}>
       <label className="font-medium text-gray-900 mb-3 text-lg">{label}</label>

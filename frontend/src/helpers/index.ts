@@ -1,5 +1,7 @@
 import { parseISO, formatDistanceToNow } from 'date-fns';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { RootState } from '../app/store';
 
 /**
  * Converts an ISO string date to a relative time format like '4 minutes ago'.
@@ -32,3 +34,17 @@ export const toastify = (message: string, options = {}) => {
     ...options,
   });
 };
+
+
+
+const UserDetails = () => {
+  const loggedinUser = useSelector((state: RootState) => state.user.userData);
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+
+  return {loggedinUser, isLoggedIn}
+}
+
+export default UserDetails
+
+// export const loggedinUser = useSelector((state: RootState) => state.user.userData);
+  // export const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);

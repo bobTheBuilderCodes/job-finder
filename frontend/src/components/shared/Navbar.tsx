@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Navbar = () => {
 
@@ -55,9 +56,7 @@ const Navbar = () => {
       </ul>
 
       {/* Profile and notifications */}
-      <h1 className="bg-gray-200 p-3 w-12 h-12 flex justify-center item text-gray-700 rounded-full font-bold">
-        Rob
-      </h1>
+      <ProfileDropdown avatarUrl="https://via.placeholder.com/150" />
     </nav>
   );
 };

@@ -1,11 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import section from "../assets/section.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import InputField from "../components/shared/InputField";
+import { useSignupMutation } from "../services/auth";
+import { toast } from "react-toastify";
+import { toastify } from "../helpers";
 
 const Signup = () => {
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+  });
+
+  const { fullname, email, password } = formData;
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const [signup] = useSignupMutation();
+
+  const navigate = useNavigate()
+
+  const signUpHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await signup(formData).unwrap();
+      console.log("Res from signup", response);
+      toastify(response.message, { type: "success" });
+      navigate("/")
+    } catch (err: any) {
+      if (err.data && err.data.message) {
+        toastify(err.data.message, { type: "error" });
+      } else if (err.status === "FETCH_ERROR") {
+        toastify("Network error: Unable to connect to the server", {
+          type: "error",
+        });
+      } else {
+        toastify("An unexpected error occurred", { type: "error" });
+      }
+    }
+   
+  };
+
   return (
     <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col">
+      <form className="w-1/2 flex p-24 flex-col" onSubmit={signUpHandler}>
         <img
           width={165}
           className="rounded-full cursor-pointer"
@@ -15,54 +65,43 @@ const Signup = () => {
         <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold">
           Create Free Account
         </h1>
-        <p className="text-gray-500 mb-6">It's easy and free. Enjoy unlimited job opportunities.</p>
-        <div className="flex flex-col">
-          <label
-            htmlFor="fullname"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-           Fullname
-          </label>
-          <input
-            placeholder="Eg. Philomena"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
-        <div className="flex flex-col mt-6">
-          <label
-            htmlFor="email"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-            Email
-          </label>
-          <input
-            placeholder="Eg. philomena@gmail.com"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
-        <div className="flex flex-col mt-6">
-          <label
-            htmlFor="password"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-            Password
-          </label>
-          <input
-            placeholder="Eg. kfga90eR4I459r"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
+        <p className="text-gray-500 mb-6">
+          It's easy and free. Enjoy unlimited job opportunities.
+        </p>
+        <InputField
+          name="fullname"
+          label="Fullname"
+          placeholder="E.g. Yaa Asantewah"
+          value={fullname}
+          onChange={handleChange}
+        />
+        <InputField
+          name="email"
+          label="Email"
+          placeholder="E.g. yaa.asantewah@gmail.com"
+          value={email}
+          className="mt-9"
+          onChange={handleChange}
+        />
+        <InputField
+          name="password"
+          label="Password"
+          placeholder="E.g. ************"
+          type="password"
+          value={password}
+          className="mt-9"
+          onChange={handleChange}
+        />
         <div className="flex justify-between">
           <NavLink to={"/"}>
             <p className="text-gray-500 mt-6 text-center mx-0 px-0">
               <span className="text-blue-500 font-medium">
-               Already have an account
+                Already have an account
               </span>{" "}
             </p>
           </NavLink>
-          
         </div>
-        <button className="bg-[#007AA9] w-[500px] mt-8 p-5 rounded-lg font-bold text-white text-xl">
+        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl">
           Sign up
         </button>
       </form>
