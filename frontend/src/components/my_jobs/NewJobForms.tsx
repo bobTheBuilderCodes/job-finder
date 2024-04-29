@@ -29,7 +29,7 @@ const NewJobForms: React.FC<{
     working_type: "",
     salary: "",
     job_description: "",
-    user: loggedinUser.userId,
+    user: loggedinUser?.userId,
   });
 
   const handleChange = (

@@ -60,12 +60,20 @@ export const authAPI = createApi({
       }),
       invalidatesTags: ['Auth'], 
     }),
+    forgotPassword: builder.mutation({
+      query: (email) => ({
+        url: "/forgot-password",
+        method: "POST",
+        body: email,
+      }),
+      invalidatesTags: ['Auth'], 
+    }),
     
   }),
 });
 
 
 export const {
- useSignupMutation, useLoginMutation
+ useSignupMutation, useLoginMutation, useForgotPasswordMutation
 } = authAPI;
 ;

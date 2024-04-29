@@ -1,7 +1,27 @@
 import ApplicationCard from "./ApplicationCard";
 import Interview from "../shared/Interview";
+import UserDetails from "../../helpers";
+import { useGetApplicationByUserQuery } from "../../services/applications";
+
+interface ApplicationData {
+  id: string;
+  email: string;
+  createdAt: string;
+  jobId: string,
+  status: "pending review" | "shortlisted for interview" | "rejected";
+}
 
 const Application = () => {
+  const { loggedinUser } = UserDetails();
+  const { data: userApplications, isLoading, error } = useGetApplicationByUserQuery(loggedinUser?.userId);
+  console.log(loggedinUser?.userId)
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading applications</div>;
+
+  const applications = userApplications?.application || [];
+
+
   return (
     <section className="bg-gray-50 flex">
       <section className="w-3/4 grid grid-cols-3 ">
@@ -20,24 +40,14 @@ const Application = () => {
             <option>Rejected</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-            <svg
-              className="fill-current h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
+            <svg className="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
             </svg>
           </div>
         </div>
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
-        <ApplicationCard />
+        {applications.map(({status, createdAt, email, id, jobId}: ApplicationData) => (
+          <ApplicationCard key={id} status={status} createdAt={createdAt} email={email} jobId={jobId} />
+        ))}
       </section>
       <aside className="w-1/4">
         <Interview />

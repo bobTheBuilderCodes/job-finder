@@ -16,12 +16,14 @@ app.use(cors())
 // Routers
 import authRouter from './routers/auth'
 import userRouter from './routers/users'
+import applicationRouter from './routers/applications'
 import { jobsRouter } from './routers/jobs'
 
 
 app.use("/api/v1", authRouter)
 app.use("/api/v1", userRouter)
 app.use("/api/v1", jobsRouter)
+app.use("/api/v1", applicationRouter)
 
 
 async function startApp(){

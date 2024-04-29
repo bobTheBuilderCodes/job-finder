@@ -46,7 +46,7 @@ const UploadJob = () => {
     salary: "",
     job_description: "",
     _id: "",
-    user: loggedinUser.userId,
+    user: loggedinUser?.userId,
   });
 
   const {
@@ -61,7 +61,7 @@ const UploadJob = () => {
   } = formData;
 
  
-  const { data } = useGetJobsByUserQuery(loggedinUser.userId);
+  const { data } = useGetJobsByUserQuery(loggedinUser?.userId);
   const [deleteJob] = useDeleteJobMutation();
 
   const fetchedJobs: JobData[] = data?.jobs;

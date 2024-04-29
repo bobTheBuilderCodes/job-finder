@@ -6,9 +6,12 @@ import {
   INTERNAL_SERVER_ERROR,
   CONFLICT,
   OK,
+  NOT_FOUND,
+  transporter,
 } from "../utils/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -66,7 +69,6 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
-
     // Validate request body
     const { fullname, email, password } = req.body;
 
@@ -107,5 +109,46 @@ export const login = async (req: Request, res: Response) => {
     res
       .status(INTERNAL_SERVER_ERROR)
       .json({ message: "Failed to log in user" });
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+console.log("Body", req.body)
+    if (!email) {
+      return res
+        .status(BAD_REQUEST)
+        .json({ message: "Please provide an email." });
+    }
+
+    const user = await Users.findOne({ email });
+
+    if (!user) {
+      return res.status(NOT_FOUND).json({ message: "No user with this email exists" });
+    }
+
+    // Generate a reset token (you could use JWT or any other method you prefer)
+    const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+
+    // Reset URL (Adjust the URL as per your frontend route)
+    const resetUrl = `http://localhost:3000/forgot-password/${user._id}/${resetToken}`;
+
+    // Setup email data
+    const mailOptions = {
+      from: 'jobfinder@gmail.com',
+      to: email, // list of receivers
+      subject: 'Password Reset Link',
+      text: 'Please use the following link to reset your password:', 
+      html: `<p>Please use the following link to reset your password:</p><p><a href="${resetUrl}">${resetUrl}</a></p>` // HTML body content
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    res.status(OK).json({ message: "Password reset link sent to your email address" });
+  } catch (error) {
+    console.error("Error during password reset process:", error);
+    res.status(INTERNAL_SERVER_ERROR).json({ message: "Unable to send password reset email" });
   }
 };

@@ -7,7 +7,6 @@ import {
   NOT_FOUND,
   OK,
 } from "../utils/index";
-import mongoose from "mongoose";
 
 export const getJobs = async (req: Request, res: Response) => {
   try {
@@ -50,8 +49,6 @@ export const jobsByUser = async(req: Request, res: Response) => {
         });
     }
 }
-
-
 
 
 export const getJob = async (req: Request , res: Response) => {

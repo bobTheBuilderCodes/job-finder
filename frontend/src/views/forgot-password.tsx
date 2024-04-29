@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import section from "../assets/section.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import InputField from "../components/shared/InputField";
+import { useForgotPasswordMutation } from "../services/auth";
+import { useDispatch } from "react-redux";
+import { toastify } from "../helpers";
 
 const ForgotPassword = () => {
+
+  const [email, setEmail] = useState("")
+  const navigate = useNavigate()
+
+  const [forgotPassword] =useForgotPasswordMutation()
+
+
+  const forgotPasswordHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    try {
+      e.preventDefault();
+      console.log("Email", email)
+
+      if (!email.trim() || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+        toastify('Please enter a valid email address', { type: 'error' });
+        return;
+      }
+      
+      const response = await forgotPassword({email}).unwrap();
+      console.log("Res from forgotpassword", response);
+      toastify(response.message, { type: "success" });
+      navigate("/")
+    } catch (err: any) {
+      if (err.data && err.data.message) {
+        toastify(err.data.message, { type: "error" });
+      } else if (err.status === "FETCH_ERROR") {
+        toastify("Network error: Unable to connect to the server", {
+          type: "error",
+        });
+      } else {
+        toastify("An unexpected error occurred", { type: "error" });
+      }
+    }
+   
+  };
+
   return (
     <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col">
+      <form className="w-1/2 flex p-24 flex-col" onSubmit={forgotPasswordHandler}>
         <img
           width={165}
           className="rounded-full cursor-pointer"
@@ -18,18 +57,14 @@ const ForgotPassword = () => {
         <p className="text-gray-500 mb-6">
           You will receive a link in your email to reset your password
         </p>
-        <div className="flex flex-col">
-          <label
-            htmlFor="email"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-            Email
-          </label>
-          <input
-            placeholder="Eg. philomena@gmail.com"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
+        <InputField
+          name="email"
+          label="Email"
+          placeholder="E.g. yaa.asantewah@gmail.com"
+          value={email}
+          className="mt-9"
+          onChange={(e)=>setEmail(e.target.value)}
+        />
 
         <div className="flex justify-between">
           <NavLink to={"/"}>
@@ -40,7 +75,7 @@ const ForgotPassword = () => {
             </p>
           </NavLink>
         </div>
-        <button className="bg-[#007AA9] w-[500px] mt-8 p-5 rounded-lg font-bold text-white text-xl">
+        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl">
           Send Link
         </button>
       </form>
