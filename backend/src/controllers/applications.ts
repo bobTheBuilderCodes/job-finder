@@ -72,3 +72,30 @@ export const applyJob = async (req: Request, res: Response) => {
         });
     }
 };
+
+
+export const applicationByUser = async(req: Request, res: Response) => {
+    try {
+        const {userId} = req.params;  
+        
+       
+        const application = await Applications.find({ user: userId }).sort({createdAt: -1});  
+
+        if (application.length === 0) {
+            return res.status(NOT_FOUND).json({
+                message: "No application found for this user"
+            });
+        }
+
+        res.status(OK).json({
+            message: "User's application fetched successfully",
+            application,
+            totalapplication: application.length
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(INTERNAL_SERVER_ERROR).json({
+            message: "Something went wrong.",
+        });
+    }
+}

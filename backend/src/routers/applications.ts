@@ -1,10 +1,11 @@
 import express from 'express'
-import { applyJob } from '../controllers/applications'
+import { applicationByUser, applyJob } from '../controllers/applications'
 
 
 const applicationRouter = express.Router()
 
-applicationRouter.post("/jobs/:jobId/apply", applyJob)
+applicationRouter.post("/apply/:jobId", applyJob)
+applicationRouter.get("/apply/user/:userId",applicationByUser)
 
 
 export default applicationRouter
