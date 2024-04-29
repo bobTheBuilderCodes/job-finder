@@ -6,9 +6,12 @@ import { useLoginMutation } from "../services/auth";
 import { toastify } from "../helpers";
 import { useDispatch } from "react-redux";
 import { setUser } from "../app/userSlice";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+
+import { jwtDecode } from "jwt-decode";
 
 const Signin = () => {
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,20 +32,19 @@ const Signin = () => {
     }));
   };
 
-  const [login] = useLoginMutation()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
+  const [login] = useLoginMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const loginHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     try {
       e.preventDefault();
       const response = await login(formData).unwrap();
-      console.log("Res from signin", response);
+     
       dispatch(setUser(response.userDetails));
-      localStorage.setItem("user", JSON.stringify(response.userDetails))
+      localStorage.setItem("user", JSON.stringify(response.userDetails));
       toastify(response.message, { type: "success" });
-      navigate("/jobs")
+      navigate("/jobs");
     } catch (err: any) {
       if (err.data && err.data.message) {
         toastify(err.data.message, { type: "error" });
@@ -54,9 +56,18 @@ const Signin = () => {
         toastify("An unexpected error occurred", { type: "error" });
       }
     }
-   
   };
 
+  const googleLoginHandler = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+       const res = fetch("https://www/googleapis.com/oauth2/v3/userinfo")
+       console.log(res)
+      } catch (err: any) {
+        toastify(err);
+      }
+    },
+  });
 
   return (
     <div className="w-screen flex items-center h-screen p-24">
@@ -71,7 +82,6 @@ const Signin = () => {
           Glad you're here, log in!
         </h1>
         <p className="text-gray-500 mb-6">Enter email and password to log in</p>
-        
         <InputField
           name="email"
           label="Email"
@@ -103,8 +113,17 @@ const Signin = () => {
             </p>
           </NavLink>
         </div>
-        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl">
+        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl mb-6">
           Sign in
+        </button>
+        <button
+          onClick={() => googleLoginHandler()}
+          className="flex items-center justify-center bg-white w-full p-5 rounded-lg font-bold text-gray-700 text-xl mb-6 border-2"
+        >
+          <span className="mr-6 text-3xl">
+            <FcGoogle />
+          </span>
+          Sign in with google
         </button>
       </form>
 

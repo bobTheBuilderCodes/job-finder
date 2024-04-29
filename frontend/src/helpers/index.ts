@@ -13,7 +13,7 @@ import { useEffect } from 'react';
  */
 export function formatCreatedAt(isoDate: string): string {
   if (!isoDate) {
-      return "Date not available"; // Return a default or a placeholder text
+      return "Date not available"; 
   }
 
   try {
@@ -21,7 +21,7 @@ export function formatCreatedAt(isoDate: string): string {
       return formatDistanceToNow(date, { addSuffix: true });
   } catch (error) {
       console.error("Error parsing date:", error);
-      return "Invalid date"; // Handle parsing errors gracefully
+      return "Invalid date"; 
   }
 }
 
@@ -42,11 +42,6 @@ export const toastify = (message: string, options = {}) => {
 
 
 
-
-
-
-
-
 const UserDetails = () => {
   const loggedinUser = useSelector((state: RootState) => state.user.userData);
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
@@ -59,7 +54,3 @@ const UserDetails = () => {
 export default UserDetails
 
 
-
-
-// export const loggedinUser = useSelector((state: RootState) => state.user.userData);
-  // export const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
