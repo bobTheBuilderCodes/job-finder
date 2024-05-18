@@ -4,6 +4,7 @@ import ApplyForJobForms from "./ApplyForJobForms";
 import { formatCreatedAt } from "../../helpers";
 
 interface jobDetails {
+  _id?: string
   job_title: string;
   city: string;
   country?: string;
@@ -14,6 +15,7 @@ interface jobDetails {
 }
 
 const JobCard = ({
+  _id,
   job_title,
   city,
   country,
@@ -56,6 +58,7 @@ const JobCard = ({
           <span className="text-blue-500">Read more...</span>
           </p>
         </div>
+        
       </section>
       <Modal
         isOpen={toggleModal}
@@ -68,10 +71,12 @@ const JobCard = ({
           <div className="md:col-span-2">
             {" "}
             {/* Form column */}
-            <ApplyForJobForms
+            <ApplyForJobForms jobId={_id as string}
               pageView={true}
               setPageView={() => {}}
               key={Math.random()}
+              toggleModal={toggleModal}
+              setToggleModal={setToggleModal}
             />
           </div>
           <div className="md:col-span-1 md:text-gray-500 md:pl-4">

@@ -15,7 +15,6 @@ export const applyJob = async (req: Request, res: Response) => {
             });
         }
 
-        console.log("Job Id", jobId);
 
         // Validate required fields in the body
         if (!fullname || !email || !cover_letter) {
@@ -62,7 +61,8 @@ export const applyJob = async (req: Request, res: Response) => {
 
         res.status(OK).json({
             message: "Job applied successfully",
-            jobApplication
+            jobApplication,
+            hasAlreadyApplied: alreadyApplied,
         });
 
     } catch (error) {
@@ -87,9 +87,11 @@ export const applicationByUser = async(req: Request, res: Response) => {
             });
         }
 
+
         res.status(OK).json({
             message: "User's application fetched successfully",
             application,
+        
             totalapplication: application.length
         });
     } catch (error) {

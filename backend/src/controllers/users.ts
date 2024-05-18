@@ -10,6 +10,7 @@ export const getUsers = async (req: Request, res: Response) => {
     message: "Users fetched successfully.",
     users
   })
+  
 }
 
 

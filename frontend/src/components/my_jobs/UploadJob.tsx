@@ -1,12 +1,8 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Interview from "../shared/Interview";
 import NewJobForms from "./NewJobForms";
 import Table from "../shared/Table";
-import {
-  useDeleteJobMutation,
-  useGetJobsByUserQuery,
-  useUpdateJobMutation,
-} from "../../services/jobs";
+import { useDeleteJobMutation, useGetApplicationsForJobQuery, useGetJobsByUserQuery, useUpdateJobMutation } from "../../services/jobs";
 import InputField from "../shared/InputField";
 import Modal from "../shared/Modal";
 import { useNavigate } from "react-router-dom";
@@ -32,9 +28,11 @@ interface JobData {
 const UploadJob = () => {
   const [pageView, setPageView] = useState(false);
   const [toggleModal, setToggleModal] = useState(false);
+  const [toggleApplicationsModal, setToggleApplicationsModal] = useState(false);
   const [selectedWorkingType, setSelectedWorkingType] = useState("All");
-  const {loggedinUser} = UserDetails()
-  // Search filters
+  const [applications, setApplications] = useState([]);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const { loggedinUser } = UserDetails();
   const [searchTerm, setSearchTerm] = useState("");
 
   const [formData, setFormData] = useState<JobData>({
@@ -49,28 +47,33 @@ const UploadJob = () => {
     user: loggedinUser?.userId,
   });
 
-  const {
-    job_title,
-    country,
-    city,
-    working_type,
-    salary,
-    job_type,
-    _id,
-    job_description,
-  } = formData;
+  const { job_title, country, city, working_type, salary, job_type, _id, job_description } = formData;
 
- 
   const { data } = useGetJobsByUserQuery(loggedinUser?.userId);
   const [deleteJob] = useDeleteJobMutation();
+
+  const { data: applicationsForJob, error: applicationsError, refetch: refetchApplications } = useGetApplicationsForJobQuery(selectedJobId ?? "", {
+    skip: !selectedJobId,
+  });
+
+  useEffect(() => {
+    if (selectedJobId) {
+      refetchApplications();
+    }
+  }, [selectedJobId, refetchApplications]);
+
+  useEffect(() => {
+    if (applicationsForJob) {
+      setApplications(applicationsForJob.applicationsForJob || []);
+    }
+  }, [applicationsForJob]);
 
   const fetchedJobs: JobData[] = data?.jobs;
 
   const filteredData = fetchedJobs?.filter(
     (job) =>
       job.job_title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedWorkingType === "All" ||
-        job.working_type === selectedWorkingType)
+      (selectedWorkingType === "All" || job.working_type === selectedWorkingType)
   );
 
   const columns = [
@@ -94,41 +97,52 @@ const UploadJob = () => {
     }));
   };
 
+  const resetFormData = () => {
+    setFormData({
+      job_title: "",
+      country: "",
+      city: "",
+      job_type: "",
+      working_type: "",
+      salary: "",
+      job_description: "",
+      _id: "",
+      user: loggedinUser?.userId,
+    });
+  };
+
   const editJobHandler = (item: any) => {
     setFormData({ ...item });
     setToggleModal(true);
   };
 
-  const deleteJobHandler = async (item: any) => {
+  const viewApplicationHandler = (item: any) => {
+    setSelectedJobId(item._id);
+    setToggleApplicationsModal(true);
+  };
 
-    const {_id, user} = item
+  const deleteJobHandler = async (item: any) => {
+    const { _id, user } = item;
     try {
-      const res = await deleteJob({_id, user});
-      console.log("Deleted o", res)
+      const res = await deleteJob({ _id, user });
       toastify("Job deleted successfully.");
     } catch (error) {
       toastify("Something went wrong.");
     }
-    console.log("Deleted", item);
   };
 
   const dropdownOptions = [
-    { label: "Edit", action: editJobHandler },
-    { label: "Delete", action: deleteJobHandler },
+    { label: "Applications", action: viewApplicationHandler },
+    { label: "Edit job", action: editJobHandler },
+    { label: "Delete job", action: deleteJobHandler },
   ];
 
   const [updateJob] = useUpdateJobMutation();
 
-  const handleUpdateJob: React.FormEventHandler<HTMLFormElement> = async (
-    e
-  ) => {
+  const handleUpdateJob: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    // Validate before sending
-    if (
-      formData.job_type === "Select job type" ||
-      formData.working_type === "Select working type"
-    ) {
+    if (formData.job_type === "Select job type" || formData.working_type === "Select working type") {
       toastify("Please select valid options for job type and working type.");
       return;
     }
@@ -137,20 +151,21 @@ const UploadJob = () => {
       const response = await updateJob({ ...formData, _id }).unwrap();
       toastify(response.message, { type: "success" });
       setToggleModal(false);
-
-      // navigate("/upload-jobs")
-      // setPageView(false);
+      window.location.reload();  // Refresh page on modal close
     } catch (err: any) {
       if (err.data && err.data.message) {
         toastify(err.data.message, { type: "error" });
       } else if (err.status === "FETCH_ERROR") {
-        toastify("Network error: Unable to connect to the server", {
-          type: "error",
-        });
+        toastify("Network error: Unable to connect to the server", { type: "error" });
       } else {
         toastify("An unexpected error occurred", { type: "error" });
       }
     }
+  };
+
+  const handleCloseApplicationsModal = () => {
+    setToggleApplicationsModal(false);
+    window.location.reload();  
   };
 
   return (
@@ -179,7 +194,6 @@ const UploadJob = () => {
               </button>
             </div>
 
-            {/* Filters */}
             <div className="flex justify-start items-end mx-6 mt-6">
               <div>
                 <input
@@ -199,10 +213,8 @@ const UploadJob = () => {
                 type="select"
                 className="font-normal"
                 options={["Select working type", "Remote", "On-site", "Hybrid"]}
-                // options={allCountries}
-                value={""}
-                // value={formData.working_type}
-                onChange={() => {}}
+                value={selectedWorkingType}
+                onChange={(e) => setSelectedWorkingType(e.target.value)}
               />
             </div>
 
@@ -218,22 +230,18 @@ const UploadJob = () => {
         <Interview />
       </aside>
 
-      {/* Modal for editing */}
-
       <Modal
         isOpen={toggleModal}
-        key={Math.random()}
-        onClose={() => setToggleModal(false)}
+        key={selectedJobId}
+        onClose={() => {
+          setToggleModal(false);
+          resetFormData();
+          window.location.reload();  // Refresh page on modal close
+        }}
       >
         <div className="w-[80vw] gap-10 md:grid-cols-3">
-          {" "}
           <div className="md:col-span-2">
-            {" "}
-            {/* Form column */}
-            <form
-              className="grid grid-cols-2 gap-12 m-6"
-              onSubmit={handleUpdateJob}
-            >
+            <form className="grid grid-cols-2 gap-12 m-6" onSubmit={handleUpdateJob}>
               <div className="col-span-2">
                 <h1 className="font-bold mb-2 text-2xl text-gray-900">
                   Edit Job Details
@@ -305,7 +313,11 @@ const UploadJob = () => {
               <div className="col-span-2 flex justify-end">
                 <button
                   type="button"
-                  onClick={() => setToggleModal(false)}
+                  onClick={() => {
+                    setToggleModal(false);
+                    resetFormData();
+                    window.location.reload();  // Refresh page on modal close
+                  }}
                   className="border-2 border-[#007AA9] mx-6 font-bold px-6 py-2 text-[#007AA9] text-lg rounded-lg transition-colors duration-300 hover:bg-[#007AA9] hover:text-white"
                 >
                   Cancel
@@ -319,6 +331,38 @@ const UploadJob = () => {
               </div>
             </form>
           </div>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={toggleApplicationsModal}
+        key={selectedJobId + "_applications"}
+        onClose={handleCloseApplicationsModal}
+      >
+        <div className="w-[96vw]">
+          <h1 className="font-bold mb-2 text-2xl text-gray-900">
+            {selectedJobId ? fetchedJobs.find(job => job._id === selectedJobId)?.job_title : ""}
+          </h1>
+          <p className="text-gray-500">View all applications for this job.</p>
+          {applications.length > 0 ? (
+            <Table
+              data={applications}
+              columns={[
+                { label: "Applicant Name", accessor: "fullname" },
+                { label: "Email", accessor: "email" },
+                { label: "Address", accessor: "address" },
+                { label: "Date Applied", accessor: "createdAt", isDate: true },
+                { label: "Salary Expectation", accessor: "salary_expectation" },
+              ]}
+              dropdownOptions={[
+                { label: "Download Resume", action: () => {} },
+                { label: "Invite for interview", action: () => {} },
+                { label: "Reject application", action: () => {} },
+              ]}
+            />
+          ) : (
+            <p className="text-gray-500">No applications found for this job.</p>
+          )}
         </div>
       </Modal>
     </section>
