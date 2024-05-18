@@ -23,7 +23,7 @@ interface TableColumn {
 interface TableProps {
   data: Array<any>;
   columns: Array<TableColumn>;
-  dropdownOptions: DropdownOption[];
+  dropdownOptions?: DropdownOption[];
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -98,9 +98,9 @@ const Table: React.FC<TableProps> = ({ data, columns, dropdownOptions }) => {
                 <MdMoreVert />
               </button>
               {dropdownOpen[idx] && (
-                <div className="z-10 origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical">
-                  {dropdownOptions.map((option, optionIndex) => (
-                    <p key={optionIndex} className="text-gray-700 block px-4 py-2 text-sm" role="menuitem" onClick={() => { option.action(item); toggleDropdown(idx); }}>
+                <div className="cursor-pointer z-10 origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none " role="menu" aria-orientation="vertical">
+                  {dropdownOptions && dropdownOptions.map((option, optionIndex) => (
+                    <p key={optionIndex} className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-50" role="menuitem" onClick={() => { option.action(item); toggleDropdown(idx); }}>
                       {option.label}
                     </p>
                   ))}

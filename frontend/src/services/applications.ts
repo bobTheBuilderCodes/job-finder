@@ -30,13 +30,14 @@ export const applicationAPI = createApi({
       query: (userId) => `/apply/user/${userId}`,
       providesTags: ['application'],
     }),
+    
     apply: builder.mutation({
-      query: (newJob) => ({
-        url: "/job",
+      query: (apply) => ({
+        url: `/apply/${apply.jobId}`,
         method: "POST",
-        body: newJob,
+        body: apply,
       }),
-      invalidatesTags: ['application'], 
+      invalidatesTags: ['application'],
     }),
     updateApplication: builder.mutation({
       query: (updateJob) => ({

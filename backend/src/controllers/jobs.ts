@@ -6,24 +6,38 @@ import {
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   OK,
+  hasAlreadyApplied,
 } from "../utils/index";
+import { Applications } from "../models/applications";
+import { resourceLimits } from "worker_threads";
+import mongoose from "mongoose";
 
 export const getJobs = async (req: Request, res: Response) => {
   try {
-    const jobs = await Jobs.find({}).sort({createdAt: -1});
+      const { user } = req.body;  
+   
 
-    res.status(OK).json({
-      message: "Jobs fetched successfully",
-      jobs,
-      totalJobs: jobs.length,
-    });
+      const jobs = await Jobs.find({}).sort({ createdAt: -1 });
+      const jobApplications = await Promise.all(jobs.map(async (job) => {
+          const application = await Applications.findOne({ jobId: job._id, userId: user });
+          return {
+              ...job.toObject(),  
+              alreadyApplied: !!application 
+          };
+      }));
+
+      res.status(OK).json({
+          message: "Jobs fetched successfully",
+          jobs: jobApplications,
+          totalJobs: jobs.length,
+      });
   } catch (error) {
-    res.status(INTERNAL_SERVER_ERROR).json({
-      message: "Something went wrong",
-    });
+      console.error("Error fetching jobs: ", error);
+      res.status(INTERNAL_SERVER_ERROR).json({
+          message: "Something went wrong",
+      });
   }
-};
-
+}
 export const jobsByUser = async(req: Request, res: Response) => {
     try {
         const {id} = req.params;  
@@ -200,10 +214,52 @@ export const deleteJob = async(req: Request, res: Response) => {
         })
 
 
+
     } catch (error) {
-        console.log(error);
+       
         res.status(INTERNAL_SERVER_ERROR).json({
           message: "Something went wrong.",
         });
       }
 }
+
+
+
+export const applicationsForJob = async (req: Request, res: Response) => {
+  try {
+    const jobId = req.params.jobId;
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(BAD_REQUEST).json({
+        message: `Invalid job ID format.`,
+      });
+    }
+
+    const existingJob = await Jobs.findById(jobId);
+
+    if (!existingJob) {
+      return res.status(NOT_FOUND).json({
+        message: `This job does not exist.`,
+        
+      });
+    }
+
+    const findApplicationsForJob = await Applications.find({ jobId }).sort({ createdAt: -1 });
+
+    if (!findApplicationsForJob.length) {
+      return res.status(NOT_FOUND).json({
+        message: `You have no applications for this job.`,
+      });
+    }
+
+    res.status(OK).json({
+      message: "Applications for job fetched successfully",
+      applicationsForJob: findApplicationsForJob,
+    });
+
+  } catch (error) {
+    res.status(INTERNAL_SERVER_ERROR).json({
+      message: "Something went wrong",
+    });
+  }
+};

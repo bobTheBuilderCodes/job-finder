@@ -56,6 +56,7 @@ const Jobs = () => {
                 job_type={job_type}
                 job_description={job_description}
                 createdAt={createdAt}
+               _id={_id}
               />
             )
           )

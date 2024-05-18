@@ -22,7 +22,7 @@ const ApplicationCard = ({status, jobId, createdAt}: applicationProps) => {
       </h1>
       <div className="ml-4">
         <h1 className="font-bold text-lg font-gray-900 ">{jobApplied || "N/A"}</h1>
-        <p className="text-gray-500"> <span className="font-semibold">Applied on </span>: {formatCreatedAt(createdAt)}</p>
+        <p className="text-gray-500"> <span className="font-semibold text-sm">Applied on </span>: {formatCreatedAt(createdAt)}</p>
         <div className="flex">
           <p className="text-gray-500 bg-gray-100 px-2 py-1 max-w-fit rounded-lg mt-3">
           {status}
