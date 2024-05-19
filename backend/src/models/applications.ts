@@ -18,8 +18,8 @@ const ApplicationSchema = new Schema({
    },
    status:{
       type: String,
-    enum: ["pending review", "shortlisted for interview", "rejected"],
-    default: "pending review"
+    enum: ["Pending review", "Shortlisted", "Rejected"],
+    default: "Pending review"
    },
    cover_letter: {
     type: String,

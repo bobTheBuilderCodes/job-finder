@@ -101,3 +101,67 @@ export const applicationByUser = async(req: Request, res: Response) => {
         });
     }
 }
+
+
+export const approveApplicationStatus = async (req: Request, res: Response) => {
+    try {
+      const { jobId } = req.params;
+     
+  
+      const existingJob = await Applications.findById(jobId);
+  
+      if (!existingJob) {
+        return res.status(NOT_FOUND).json({
+          message: "No application with this credentials exists.",
+        });
+      }
+  
+  
+      const updatedJob = await Applications.findByIdAndUpdate(jobId, {...req.body, status: 'Shortlisted'}, {
+          new: true,
+          runValidators: true
+      })
+  
+      res.status(OK).json({
+          message: "Applicant shortlisted successfully.",
+          updatedJob
+      })
+    } catch (error) {
+      console.log(error);
+      res.status(INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong.",
+      });
+    }
+  };
+
+
+export const rejectApplicationStatus = async (req: Request, res: Response) => {
+    try {
+      const { jobId } = req.params;
+     
+      const existingJob = await Applications.findById(jobId);
+  
+      if (!existingJob) {
+        return res.status(NOT_FOUND).json({
+          message: "No application with this credentials exists.",
+        });
+      }
+  
+  
+      const updatedJob = await Applications.findByIdAndUpdate(jobId, {...req.body, status: 'Rejected'}, {
+          new: true,
+          runValidators: true
+      })
+  
+      res.status(OK).json({
+          message: "Applicant rejected successfully.",
+          updatedJob
+      })
+    } catch (error) {
+      console.log(error);
+      res.status(INTERNAL_SERVER_ERROR).json({
+        message: "Something went wrong.",
+      });
+    }
+  };
+

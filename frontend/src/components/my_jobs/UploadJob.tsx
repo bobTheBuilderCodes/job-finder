@@ -7,6 +7,7 @@ import InputField from "../shared/InputField";
 import Modal from "../shared/Modal";
 import { useNavigate } from "react-router-dom";
 import UserDetails, { toastify } from "../../helpers";
+import { useApproveApplicationMutation, useRejectApplicationMutation } from "../../services/applications";
 
 type DropdownOption = {
   label: string | JSX.Element;
@@ -138,15 +139,17 @@ const UploadJob = () => {
   ];
 
   const [updateJob] = useUpdateJobMutation();
+  const [approveApplication] = useApproveApplicationMutation()
+  const [rejectApplication] = useRejectApplicationMutation()
 
   const handleUpdateJob: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-
+  
     if (formData.job_type === "Select job type" || formData.working_type === "Select working type") {
       toastify("Please select valid options for job type and working type.");
       return;
     }
-
+  
     try {
       const response = await updateJob({ ...formData, _id }).unwrap();
       toastify(response.message, { type: "success" });
@@ -162,11 +165,53 @@ const UploadJob = () => {
       }
     }
   };
+  
+  const handleApproveApplication = async (item: any) => {
+    try {
+      const response = await approveApplication({ _id: item._id }).unwrap();
+      toastify(response.message, { type: "success" });
+      setToggleApplicationsModal(false);
+      window.location.reload();  // Refresh page on modal close
+    } catch (err: any) {
+      if (err.data && err.data.message) {
+        toastify(err.data.message, { type: "error" });
+      } else if (err.status === "FETCH_ERROR") {
+        toastify("Network error: Unable to connect to the server", { type: "error" });
+      } else {
+        toastify("An unexpected error occurred", { type: "error" });
+      }
+    }
+  };
+  
+  const handleRejectApplication = async (item: any) => {
+    try {
+      const response = await rejectApplication({ _id: item._id }).unwrap();
+      toastify(response.message, { type: "success" });
+      setToggleApplicationsModal(false);
+      window.location.reload();  // Refresh page on modal close
+    } catch (err: any) {
+      if (err.data && err.data.message) {
+        toastify(err.data.message, { type: "error" });
+      } else if (err.status === "FETCH_ERROR") {
+        toastify("Network error: Unable to connect to the server", { type: "error" });
+      } else {
+        toastify("An unexpected error occurred", { type: "error" });
+      }
+    }
+  };
+  
+
+
+  const downloadResume = () => {}
+
+
 
   const handleCloseApplicationsModal = () => {
     setToggleApplicationsModal(false);
     window.location.reload();  
   };
+
+
 
   return (
     <section className="bg-gray-50 flex">
@@ -352,12 +397,12 @@ const UploadJob = () => {
                 { label: "Email", accessor: "email" },
                 { label: "Address", accessor: "address" },
                 { label: "Date Applied", accessor: "createdAt", isDate: true },
-                { label: "Salary Expectation", accessor: "salary_expectation" },
+                { label: "Status", accessor: "status" },
               ]}
               dropdownOptions={[
-                { label: "Download Resume", action: () => {} },
-                { label: "Invite for interview", action: () => {} },
-                { label: "Reject application", action: () => {} },
+                { label: "Download Resume", action: downloadResume },
+                { label: "Invite for interview", action: handleApproveApplication },
+                { label: "Reject application", action: handleRejectApplication },
               ]}
             />
           ) : (

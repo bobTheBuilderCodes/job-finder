@@ -38,6 +38,8 @@ export const getJobs = async (req: Request, res: Response) => {
       });
   }
 }
+
+
 export const jobsByUser = async(req: Request, res: Response) => {
     try {
         const {id} = req.params;  
@@ -88,6 +90,7 @@ export const getJob = async (req: Request , res: Response) => {
       }
 }
 
+
 export const postJob = async (req: Request, res: Response) => {
   try {
     const {
@@ -128,6 +131,7 @@ export const postJob = async (req: Request, res: Response) => {
     });
   }
 };
+
 
 export const updateJob = async (req: Request, res: Response) => {
   try {
@@ -224,7 +228,6 @@ export const deleteJob = async(req: Request, res: Response) => {
 }
 
 
-
 export const applicationsForJob = async (req: Request, res: Response) => {
   try {
     const jobId = req.params.jobId;
@@ -240,7 +243,7 @@ export const applicationsForJob = async (req: Request, res: Response) => {
     if (!existingJob) {
       return res.status(NOT_FOUND).json({
         message: `This job does not exist.`,
-        
+
       });
     }
 
@@ -263,3 +266,4 @@ export const applicationsForJob = async (req: Request, res: Response) => {
     });
   }
 };
+
