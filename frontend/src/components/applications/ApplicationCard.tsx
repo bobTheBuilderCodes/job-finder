@@ -13,7 +13,7 @@ const ApplicationCard = ({status, jobId, createdAt}: applicationProps) => {
 
   const {data} = useGetJobQuery(jobId)
   const jobApplied = data?.job?.job_title
-  console.log("Details", jobApplied)
+  
   return (
     
     <section className="shadow-sm border-2 border-gray-100 p-4 m-3 bg-white rounded-lg flex items-start mx-6">

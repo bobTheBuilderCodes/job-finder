@@ -281,7 +281,7 @@ const UploadJob = () => {
         onClose={() => {
           setToggleModal(false);
           resetFormData();
-          window.location.reload();  // Refresh page on modal close
+          window.location.reload();  
         }}
       >
         <div className="w-[80vw] gap-10 md:grid-cols-3">
