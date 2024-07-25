@@ -95,6 +95,7 @@ const UploadJob = () => {
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
+      
     }));
   };
 

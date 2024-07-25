@@ -31,7 +31,7 @@ export function formatCreatedAt(isoDate: string): string {
 export const toastify = (message: string, options = {}) => {
   toast(message, {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 5001,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

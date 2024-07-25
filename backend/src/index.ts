@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 dotenv.config()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 
 const app = express()
 
@@ -19,6 +19,7 @@ import userRouter from './routers/users'
 import applicationRouter from './routers/applications'
 import { jobsRouter } from './routers/jobs'
 
+//Visited
 
 app.use("/api/v1", authRouter)
 app.use("/api/v1", userRouter)
@@ -32,7 +33,7 @@ async function startApp(){
         console.log("Connecting to DB...")
         await mongoose.connect(process.env.MONGO_URI!)
         console.log("Connected to DB successfully")
-        app.listen(PORT, ()=>console.log(`Server listening on port ${PORT}...`))
+        app.listen(PORT, ()=>console.log(`Server listening on port ${PORT || 5001}...`))
         
 
     } catch (error) {
