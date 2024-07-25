@@ -7,27 +7,29 @@ import { useDispatch } from "react-redux";
 import { toastify } from "../helpers";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState("")
-  const navigate = useNavigate()
+  const [forgotPassword] = useForgotPasswordMutation();
 
-  const [forgotPassword] =useForgotPasswordMutation()
-
-
-  const forgotPasswordHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const forgotPasswordHandler: React.FormEventHandler<HTMLFormElement> = async (
+    e
+  ) => {
     try {
       e.preventDefault();
-      console.log("Email", email)
 
-      if (!email.trim() || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
-        toastify('Please enter a valid email address', { type: 'error' });
+      if (
+        !email.trim() ||
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
+      ) {
+        toastify("Please enter a valid email address", { type: "error" });
         return;
       }
-      
-      const response = await forgotPassword({email}).unwrap();
-      console.log("Res from forgotpassword", response);
+
+      const response = await forgotPassword({ email }).unwrap();
+
       toastify(response.message, { type: "success" });
-      navigate("/")
+      navigate("/");
     } catch (err: any) {
       if (err.data && err.data.message) {
         toastify(err.data.message, { type: "error" });
@@ -39,12 +41,14 @@ const ForgotPassword = () => {
         toastify("An unexpected error occurred", { type: "error" });
       }
     }
-   
   };
 
   return (
     <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col" onSubmit={forgotPasswordHandler}>
+      <form
+        className="w-1/2 flex p-24 flex-col"
+        onSubmit={forgotPasswordHandler}
+      >
         <img
           width={165}
           className="rounded-full cursor-pointer"
@@ -63,7 +67,7 @@ const ForgotPassword = () => {
           placeholder="E.g. yaa.asantewah@gmail.com"
           value={email}
           className="mt-9"
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <div className="flex justify-between">

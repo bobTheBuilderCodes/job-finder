@@ -59,7 +59,7 @@ export const jobsByUser = async(req: Request, res: Response) => {
             totalJobs: jobs.length
         });
     } catch (error) {
-        console.log(error);
+       
         res.status(INTERNAL_SERVER_ERROR).json({
             message: "Something went wrong.",
         });
@@ -83,7 +83,7 @@ export const getJob = async (req: Request , res: Response) => {
         })
         
     } catch (error) {
-        console.log(error);
+      
         res.status(INTERNAL_SERVER_ERROR).json({
           message: "Something went wrong.",
         });
@@ -95,11 +95,11 @@ export const postJob = async (req: Request, res: Response) => {
   try {
     const {
       job_title,
-      country,
+    
       city,
       working_type,
       job_type,
-      salary,
+     
       job_description,
       user,
     } = req.body;
@@ -125,7 +125,7 @@ export const postJob = async (req: Request, res: Response) => {
       newJob,
     });
   } catch (error) {
-    console.log(error);
+  
     res.status(INTERNAL_SERVER_ERROR).json({
       message: "Something went wrong.",
     });
@@ -184,7 +184,7 @@ export const updateJob = async (req: Request, res: Response) => {
         updatedJob
     })
   } catch (error) {
-    console.log(error);
+   
     res.status(INTERNAL_SERVER_ERROR).json({
       message: "Something went wrong.",
     });

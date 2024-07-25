@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Users } from "../models/users";
-import { CREATED, INTERNAL_SERVER_ERROR , OK} from "../utils/index";
+import {OK} from "../utils/index";
 
 
 

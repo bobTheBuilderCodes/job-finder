@@ -36,7 +36,7 @@ const Signup = () => {
     try {
       e.preventDefault();
       const response = await signup(formData).unwrap();
-      console.log("Res from signup", response);
+     
       toastify(response.message, { type: "success" });
       navigate("/")
     } catch (err: any) {

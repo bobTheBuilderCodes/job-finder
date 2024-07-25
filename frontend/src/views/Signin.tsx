@@ -62,7 +62,7 @@ const Signin = () => {
     onSuccess: async (tokenResponse) => {
       try {
        const res = fetch("https://www/googleapis.com/oauth2/v3/userinfo")
-       console.log(res)
+      
       } catch (err: any) {
         toastify(err);
       }

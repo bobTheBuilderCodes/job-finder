@@ -14,7 +14,7 @@ interface ApplicationData {
 const Application = () => {
   const { loggedinUser } = UserDetails();
   const { data: userApplications, isLoading, error } = useGetApplicationByUserQuery(loggedinUser?.userId);
-  console.log(loggedinUser?.userId)
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading applications</div>;

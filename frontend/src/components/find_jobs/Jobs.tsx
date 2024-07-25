@@ -21,7 +21,7 @@ const Jobs = () => {
 
   const jobs: jobDetails[] = data?.jobs;
 
-  console.log("Jobs fetched", data);
+ 
 
   
 

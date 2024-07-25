@@ -56,7 +56,6 @@ const [apply] = useApplyMutation()
 const handleApplyJob: React.FormEventHandler<HTMLFormElement> = async (e) => {
   e.preventDefault();
 
-  console.log("Job id", jobId)
   try {
     const response = await apply(formData).unwrap();
     toastify(response.message, { type: "success" });

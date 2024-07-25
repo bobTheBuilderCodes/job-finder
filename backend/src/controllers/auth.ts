@@ -115,7 +115,7 @@ export const login = async (req: Request, res: Response) => {
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
-console.log("Body", req.body)
+
     if (!email) {
       return res
         .status(BAD_REQUEST)
