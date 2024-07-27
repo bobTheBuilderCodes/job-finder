@@ -56,7 +56,7 @@ const InputField: React.FC<InputFieldProps> = ({
           type={type}
           name={name}
           placeholder={placeholder}
-          className="bg-white outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-full"
+          className="bg-white outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-3 pr-10 w-full"
           value={value}
           onChange={onChange}
         />

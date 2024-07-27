@@ -1,51 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import section from "../assets/section.png";
+import InputField from "../components/shared/InputField";
 
 const ResetPassword = () => {
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const { password, confirmPassword } = formData;
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
-    <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col">
+    <div className="w-screen flex flex-col lg:flex-row items-center lg:h-screen p-6 lg:p-24">
+      <form className="w-full lg:w-1/2 flex flex-col lg:p-24 pt-8 lg:pt-16">
         <img
-          width={165}
-          className="rounded-full cursor-pointer"
+          width={140}
+          className="rounded-full cursor-pointer mx-auto lg:mx-0"
           src="https://static.vecteezy.com/system/resources/previews/011/401/355/non_2x/job-finder-logo-vector.jpg"
           alt="job_finder_logo"
         />
-        <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold">
-         Reset Password
+        <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold text-center lg:text-left">
+          Reset Password
         </h1>
-        <p className="text-gray-500 mb-6">Enter your new password. You will need this for your next log in</p>
-        <div className="flex flex-col">
-          <label
-            htmlFor="new_password"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-         New Password
-          </label>
-          <input
-            placeholder="Eg.sdafoi435io"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
-        <div className="flex flex-col mt-6">
-          <label
-            htmlFor="confirm_password"
-            className="font-medium text-gray-900 mb-3 text-lg"
-          >
-            Confirm Password
-          </label>
-          <input
-            placeholder="Confirm password"
-            className=" bg-white  outline-1 outline-gray-200 appearance-none shadow-sm border-2 border-gray-100 font-semibold text-gray-700 rounded-lg p-5 pr-10 w-[500px]"
-          />
-        </div>
-        
-        <button className="bg-[#007AA9] w-[500px] mt-8 p-5 rounded-lg font-bold text-white text-xl">
-        Save New Password
+        <p className="text-gray-500 mb-6 text-center lg:text-left">
+          Enter your new password. You will need this for your next log in
+        </p>
+        <InputField
+          name="password"
+          label="Password"
+          placeholder="E.g. ************"
+          type="password"
+          value={password}
+          className="w-full mt-4"
+          onChange={handleChange}
+        />
+        <InputField
+          name="confirmPassword"
+          label="Confirm Password"
+          placeholder="E.g. ************"
+          type="password"
+          value={confirmPassword}
+          className="w-full mt-4"
+          onChange={handleChange}
+        />
+        <button className="bg-[#007AA9] w-full mt-8 p-3 rounded-lg font-bold text-white text-xl mb-6">
+          Save new password
         </button>
       </form>
 
-      <img src={section} alt="sign_in banner" className="w-1/2 p-12" />
+      <div className="hidden lg:block w-full lg:w-1/2 p-12">
+        <img src={section} alt="sign_in banner" />
+      </div>
     </div>
   );
 };

@@ -3,7 +3,6 @@ import section from "../assets/section.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import InputField from "../components/shared/InputField";
 import { useSignupMutation } from "../services/auth";
-import { toast } from "react-toastify";
 import { toastify } from "../helpers";
 
 const Signup = () => {
@@ -29,16 +28,15 @@ const Signup = () => {
   };
 
   const [signup] = useSignupMutation();
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const signUpHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     try {
       e.preventDefault();
       const response = await signup(formData).unwrap();
-     
+
       toastify(response.message, { type: "success" });
-      navigate("/")
+      navigate("/");
     } catch (err: any) {
       if (err.data && err.data.message) {
         toastify(err.data.message, { type: "error" });
@@ -50,22 +48,24 @@ const Signup = () => {
         toastify("An unexpected error occurred", { type: "error" });
       }
     }
-   
   };
 
   return (
-    <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col" onSubmit={signUpHandler}>
+    <div className="w-screen flex flex-col lg:flex-row items-center lg:h-screen p-6 lg:p-24">
+      <form
+        className="w-full lg:w-1/2 flex flex-col lg:p-24 pt-8 lg:pt-16"
+        onSubmit={signUpHandler}
+      >
         <img
-          width={165}
-          className="rounded-full cursor-pointer"
+          width={140}
+          className="rounded-full cursor-pointer mx-auto lg:mx-0"
           src="https://static.vecteezy.com/system/resources/previews/011/401/355/non_2x/job-finder-logo-vector.jpg"
           alt="job_finder_logo"
         />
-        <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold">
+        <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold text-center lg:text-left">
           Create Free Account
         </h1>
-        <p className="text-gray-500 mb-6">
+        <p className="text-gray-500 mb-6 text-center lg:text-left">
           It's easy and free. Enjoy unlimited job opportunities.
         </p>
         <InputField
@@ -73,6 +73,7 @@ const Signup = () => {
           label="Fullname"
           placeholder="E.g. Yaa Asantewah"
           value={fullname}
+          className="w-full"
           onChange={handleChange}
         />
         <InputField
@@ -80,7 +81,7 @@ const Signup = () => {
           label="Email"
           placeholder="E.g. yaa.asantewah@gmail.com"
           value={email}
-          className="mt-9"
+          className="mt-4 w-full"
           onChange={handleChange}
         />
         <InputField
@@ -89,24 +90,25 @@ const Signup = () => {
           placeholder="E.g. ************"
           type="password"
           value={password}
-          className="mt-9"
+          className="mt-4 w-full"
           onChange={handleChange}
         />
-        <div className="flex justify-between">
+        <div className="flex flex-col lg:flex-row justify-between">
           <NavLink to={"/"}>
-            <p className="text-gray-500 mt-6 text-center mx-0 px-0">
+            <p className="text-gray-500 mt-6 text-left lg:text-left">
               <span className="text-blue-500 font-medium">
                 Already have an account
               </span>{" "}
             </p>
           </NavLink>
         </div>
-        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl">
+        <button className="bg-[#007AA9] w-full mt-6 p-3 rounded-lg font-bold text-white text-xl">
           Sign up
         </button>
       </form>
-
-      <img src={section} alt="sign_in banner" className="w-1/2 p-12" />
+      <div className="hidden lg:block w-full lg:w-1/2 p-12">
+        <img src={section} alt="sign_in banner" />
+      </div>
     </div>
   );
 };

@@ -9,7 +9,7 @@ import { setUser } from "../app/userSlice";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ const Signin = () => {
     try {
       e.preventDefault();
       const response = await login(formData).unwrap();
-     
+
       dispatch(setUser(response.userDetails));
       localStorage.setItem("user", JSON.stringify(response.userDetails));
       toastify(response.message, { type: "success" });
@@ -61,8 +61,7 @@ const Signin = () => {
   const googleLoginHandler = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-       const res = fetch("https://www/googleapis.com/oauth2/v3/userinfo")
-      
+        const res = fetch("https://www.googleapis.com/oauth2/v3/userinfo");
       } catch (err: any) {
         toastify(err);
       }
@@ -70,24 +69,29 @@ const Signin = () => {
   });
 
   return (
-    <div className="w-screen flex items-center h-screen p-24">
-      <form className="w-1/2 flex p-24 flex-col" onSubmit={loginHandler}>
+    <div className="w-screen flex flex-col lg:flex-row items-center lg:h-screen p-6 lg:p-24">
+      <form
+        className="w-full lg:w-1/2 flex flex-col p-0 lg:p-24 pt-8 lg:pt-16"
+        onSubmit={loginHandler}
+      >
         <img
-          width={165}
-          className="rounded-full cursor-pointer"
+          width={140}
+          className="rounded-full cursor-pointer mx-auto lg:mx-0"
           src="https://static.vecteezy.com/system/resources/previews/011/401/355/non_2x/job-finder-logo-vector.jpg"
           alt="job_finder_logo"
         />
-        <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold">
+        <h1 className="text-4xl pt-8 text-gray-900 pb-2 font-bold text-center lg:text-left">
           Glad you're here, log in!
         </h1>
-        <p className="text-gray-500 mb-6">Enter email and password to log in</p>
+        <p className="text-gray-500 mb-3 text-center lg:text-left">
+          Enter email and password to log in
+        </p>
         <InputField
           name="email"
           label="Email"
           placeholder="E.g. yaa.asantewah@gmail.com"
           value={email}
-          className="mt-9"
+          className="mt-4 w-full"
           onChange={handleChange}
         />
         <InputField
@@ -96,38 +100,39 @@ const Signin = () => {
           placeholder="E.g. ************"
           type="password"
           value={password}
-          className="mt-9"
+          className="mt-4 w-full"
           onChange={handleChange}
         />
-        <div className="flex justify-between">
+        <div className="flex flex-row lg:flex-row justify-between">
           <NavLink to={"/signup"}>
-            <p className="text-gray-500 mt-6 text-center mx-0 px-0">
+            <p className="text-gray-500 mt-6 text-center lg:text-left">
               <span className="text-blue-500 font-medium">
                 Create Free Account
               </span>{" "}
             </p>
           </NavLink>
           <NavLink to={"/forgot-password"}>
-            <p className="text-gray-500 mt-6 text-end mx-0 px-0">
+            <p className="text-gray-500 mt-6 text-center lg:text-right">
               <span className="text-blue-500 font-medium">Forgot Password</span>{" "}
             </p>
           </NavLink>
         </div>
-        <button className="bg-[#007AA9] w-full mt-8 p-5 rounded-lg font-bold text-white text-xl mb-6">
+        <button className="bg-[#007AA9] w-full mt-8 p-3 rounded-lg font-bold text-white text-xl mb-6">
           Sign in
         </button>
         <button
           onClick={() => googleLoginHandler()}
-          className="flex items-center justify-center bg-white w-full p-5 rounded-lg font-bold text-gray-700 text-xl mb-6 border-2"
+          className="flex items-center justify-center bg-white w-full p-3 rounded-lg font-bold text-gray-700 text-xl mb-6 border-2"
         >
           <span className="mr-6 text-3xl">
             <FcGoogle />
           </span>
-          Sign in with google
+          Sign in with Google
         </button>
       </form>
-
-      <img src={section} alt="sign_in banner" className="w-1/2 p-12" />
+      <div className="hidden lg:block w-full lg:w-1/2 p-12">
+        <img src={section} alt="sign_in banner" />
+      </div>
     </div>
   );
 };
