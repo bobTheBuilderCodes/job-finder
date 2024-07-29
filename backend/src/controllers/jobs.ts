@@ -18,7 +18,7 @@ export const getJobs = async (req: Request, res: Response) => {
    
 
       const jobs = await Jobs.find({}).sort({ createdAt: -1 });
-      const jobApplications = await Promise.all(jobs.map(async (job) => {
+      const jobApplications = await Promise.all(jobs.map(async (job: any) => {
           const application = await Applications.findOne({ jobId: job._id, userId: user });
           return {
               ...job.toObject(),  
