@@ -1,3 +1,4 @@
+import React from "react";
 import { Banner, Navbar } from "../components";
 import UploadJob from "../components/my_jobs/UploadJob";
 
