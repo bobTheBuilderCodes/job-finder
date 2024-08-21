@@ -6,7 +6,7 @@ import cors from 'cors'
 dotenv.config()
 const PORT = process.env.PORT || 5001
 
-const app = express()
+export const app = express()
 
 // middlewares
 app.use(express.json())

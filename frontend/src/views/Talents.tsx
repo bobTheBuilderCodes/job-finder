@@ -1,3 +1,4 @@
+import React from "react";
 import { Banner, Navbar } from "../components";
 import Talent from "../components/talents/Talent";
 

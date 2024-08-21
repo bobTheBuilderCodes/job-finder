@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Banner, Jobs, Navbar } from "../components";
+import React from "react";
 
 
 

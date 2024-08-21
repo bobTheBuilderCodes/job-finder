@@ -9,6 +9,7 @@ import ForgotPassword from "./views/forgot-password";
 import ResetPassword from "./views/reset-password";
 import PrivateRoute from "./app/routes/PrivateRoute";
 import PublicRoute from "./app/routes/PublicRoute";
+import React from "react";
 
 const App = () => {
   return (
