@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Banner, Jobs, Navbar } from "../components";
 import Application from "../components/applications/Application";
 import UserDetails from "../helpers";

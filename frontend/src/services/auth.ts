@@ -23,11 +23,11 @@ export const authAPI = createApi({
   tagTypes: ['Auth'], 
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => `/jobs/`,
+      query: () => `jobs/`,
       providesTags: ['Auth'], 
     }),
     getJobsByUser: builder.query({
-      query: (id) => `/jobs/user/${id}`,
+      query: (id) => `jobs/user/${id}`,
       providesTags: ['Auth'],
     }),
     getJob: builder.query({
@@ -36,7 +36,7 @@ export const authAPI = createApi({
     }),
     updateJob: builder.mutation({
       query: (updateJob) => ({
-        url: `/job/${updateJob._id}`,
+        url: `job/${updateJob._id}`,
         method: "PUT",
         body: updateJob,
       }),
@@ -46,7 +46,7 @@ export const authAPI = createApi({
     // Sign up and log in
     signup: builder.mutation({
       query: (newUser) => ({
-        url: "/signup",
+        url: "signup",
         method: "POST",
         body: newUser,
       }),
@@ -54,7 +54,7 @@ export const authAPI = createApi({
     }),
     login: builder.mutation({
       query: (user) => ({
-        url: "/login",
+        url: "login",
         method: "POST",
         body: user,
       }),

@@ -1,3 +1,5 @@
+import React from "react";
+
 const Interview = () => {
   return (
     <div className="shadow-md shadow-gray-100 p-6 m-6 bg-white sticky top-[10vh]">
