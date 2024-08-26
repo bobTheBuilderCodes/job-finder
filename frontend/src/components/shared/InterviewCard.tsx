@@ -1,3 +1,5 @@
+import React from "react";
+
 const JobCard = () => {
   return (
     <section className="bg-white px-4 py-8 m-6 shadow-md shadow-gray-100 flex  rounded-lg">

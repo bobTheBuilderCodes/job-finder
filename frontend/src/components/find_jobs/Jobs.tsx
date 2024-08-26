@@ -1,3 +1,4 @@
+import React from "react";
 
 import Filters from "./Filters";
 import GlobalSearch from "./GlobalSearch";

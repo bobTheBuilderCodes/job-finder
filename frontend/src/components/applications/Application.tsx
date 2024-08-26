@@ -1,3 +1,5 @@
+import React from "react";
+
 import ApplicationCard from "./ApplicationCard";
 import Interview from "../shared/Interview";
 import UserDetails from "../../helpers";

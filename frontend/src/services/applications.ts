@@ -1,3 +1,5 @@
+
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASEURL } from "./endpoints";
 
@@ -16,6 +18,7 @@ export const applicationAPI = createApi({
         headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
+      
     },
   }),
   tagTypes: ["application"],

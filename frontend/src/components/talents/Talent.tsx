@@ -1,4 +1,5 @@
 
+import React from "react";
 import Interview from "../shared/Interview";
 import TalentCard from "./TalentCard";
 

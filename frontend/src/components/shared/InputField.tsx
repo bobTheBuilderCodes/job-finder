@@ -1,4 +1,5 @@
-// InputField.tsx
+import React from "react";
+
 interface InputFieldProps {
   name: string;
   label?: string;
