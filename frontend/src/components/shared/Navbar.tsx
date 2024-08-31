@@ -8,7 +8,7 @@ const Navbar = () => {
   const pending= "p-3 hover:bg-gray-100"
   const active = "p-3 hover:bg-gray-100 border-b-4 border-[#007AA9]"
   return (
-    <nav className="h-[8vh] px-4 border-2 border-gray-100 flex justify-between items-center sticky top-0 bg-white">
+    <nav className="h-[8vh] px-3 border-2 border-gray-100 flex justify-between items-center sticky top-0 bg-white">
       <NavLink to={'/jobs'}>
 
       <img
@@ -20,7 +20,7 @@ const Navbar = () => {
         </NavLink>
 
       {/* Nav items */}
-      <ul className="flex w-auto justify-between text-gray-500 font-medium cursor-pointer items-start -mb-3">
+      <ul className="flex w-auto justify-between text-gray-500 font-normal text-sm cursor-pointer items-start -mb-3">
       <NavLink
           to="/jobs"
           className={({ isActive, isPending }) =>
