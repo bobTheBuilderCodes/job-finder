@@ -32,9 +32,9 @@ const JobCard = ({
     <>
       <section
         onClick={() => setToggleModal(true)}
-        className="bg-white px-4 py-8 m-6 shadow-md shadow-gray-100 flex rounded-lg cursor-pointer"
+        className="bg-white px-4 py-8 my-6 mx-3 shadow-md shadow-gray-100 flex rounded-lg cursor-pointer"
       >
-        <div className="bg-[#007AA9] max-h-10 min-w-10 rounded-md mr-4 font-bold text-xl flex justify-center items-center text-white">
+        <div className="bg-[#007AA9] max-h-10 min-w-10 rounded-md mr-4 font-regular text-xl flex justify-center items-center text-white">
           {job_title[0]}
         </div>
         <div className="w-full">
@@ -52,11 +52,11 @@ const JobCard = ({
               </p>
             </div>
           </div>
-          <span className="bg-gray-100 px-2 py-1 mt-6 max-w-auto font-semibold text-gray-700 ">
+          <span className="bg-gray-100 px-2 py-1 mt-6 max-w-auto font-regular text-gray-700 ">
             {job_type[0].toUpperCase() + job_type.slice(1)}
           </span>
 
-          <p className="text-gray-500 list-disc mt-3">{`${job_description.slice(0,250)}...`} 
+          <p className="text-gray-500 list-disc font-normal text-sm mt-3">{`${job_description.slice(0,250)}...`} 
           <span className="text-blue-500">Read more...</span>
           </p>
         </div>
