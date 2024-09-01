@@ -6,6 +6,7 @@ import UserDetails from "../helpers";
 import { useGetApplicationByUserQuery } from "../services/applications";
 import { useResponsiveJSX } from "../components/shared/useResponsiveJSX";
 import MobileNavigation from "../components/shared/MobileTabs";
+import MobileNavbar from "../components/shared/MobileNavbar";
 
 const Applications = () => {
 
@@ -21,6 +22,7 @@ const Applications = () => {
     {breakpoint !== 0 && showCommonContent}
     {breakpoint === 0 && (
       <main className="">
+         <MobileNavbar />
         <p>Applications not done</p>
         <MobileNavigation />
       </main>

@@ -3,6 +3,7 @@ import { Banner, Navbar } from "../components";
 import UploadJob from "../components/my_jobs/UploadJob";
 import MobileNavigation from "../components/shared/MobileTabs";
 import { useResponsiveJSX } from "../components/shared/useResponsiveJSX";
+import MobileNavbar from "../components/shared/MobileNavbar";
 
 const UploadJobs = () => {
 
@@ -17,6 +18,7 @@ const UploadJobs = () => {
     {breakpoint !== 0 && showCommonContent}
     {breakpoint === 0 && (
       <main className="">
+         <MobileNavbar />
         <p>Jobs? Hmm but you already have a job.</p>
         <MobileNavigation />
       </main>
