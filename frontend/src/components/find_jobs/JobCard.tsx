@@ -6,7 +6,7 @@ import ApplyForJobForms from "./ApplyForJobForms";
 import { formatCreatedAt } from "../../helpers";
 
 interface jobDetails {
-  _id?: string
+  _id?: string;
   job_title: string;
   city: string;
   country?: string;
@@ -32,35 +32,36 @@ const JobCard = ({
     <>
       <section
         onClick={() => setToggleModal(true)}
-        className="bg-white px-4 py-8 my-6 mx-3 shadow-md shadow-gray-100 flex rounded-lg cursor-pointer"
+        className="bg-white px-4 py-8 my-6 mx-0 shadow-md shadow-gray-100 flex rounded-lg cursor-pointer"
       >
-        <div className="bg-[#007AA9] max-h-10 min-w-10 rounded-md mr-4 font-regular text-xl flex justify-center items-center text-white">
+        <p className="bg-[#007AA9] max-h-8 min-w-8 rounded-md mr-4 font-regular text-sm flex justify-center items-center text-white">
           {job_title[0]}
-        </div>
+        </p>
         <div className="w-full">
-          <div className="flex justify-between">
-            <h1 className="font-bold text-lg font-gray-900 mb-3 mr-auto">
+          <div className="flex justify-between gap-2 flex-wrap">
+            <h1 className="font-bold text-md font-gray-900 mb-1 mr-auto">
               {job_title}
             </h1>
-            <div>
-              <h1 className="font-medium text-md text-gray-500 text-end">
-                {city} {country && `, ${country}`}
-              </h1>
-              <p className="text-gray-400 text-sm list-disc text-end">
-                {" "}
-                {formatCreatedAt(createdAt)}
-              </p>
-            </div>
+            <span className="bg-gray-100 px-2 py-1 mb-2 max-w-auto font-regular text-sm text-gray-700 ">
+              {job_type[0].toUpperCase() + job_type.slice(1)}
+            </span>
           </div>
-          <span className="bg-gray-100 px-2 py-1 mt-6 max-w-auto font-regular text-gray-700 ">
-            {job_type[0].toUpperCase() + job_type.slice(1)}
-          </span>
 
-          <p className="text-gray-500 list-disc font-normal text-sm mt-3">{`${job_description.slice(0,250)}...`} 
-          <span className="text-blue-500">Read more...</span>
+          {/* Paste here */}
+
+          <h1 className="font-medium text-md text-gray-500 -mt-2">
+            {city} {country && `, ${country}`}
+          </h1>
+
+          <p className="text-gray-500 list-disc font-normal text-sm my-3">
+            {`${job_description.slice(0, 150)}...`}
+            <span className="text-blue-500">Read more...</span>
           </p>
+
+          <span className="text-gray-400 text-sm font-regular list-disc">
+            {formatCreatedAt(createdAt)}{" "}
+          </span>
         </div>
-        
       </section>
       <Modal
         isOpen={toggleModal}
@@ -73,7 +74,8 @@ const JobCard = ({
           <div className="md:col-span-2">
             {" "}
             {/* Form column */}
-            <ApplyForJobForms jobId={_id as string}
+            <ApplyForJobForms
+              jobId={_id as string}
               pageView={true}
               setPageView={() => {}}
               key={Math.random()}

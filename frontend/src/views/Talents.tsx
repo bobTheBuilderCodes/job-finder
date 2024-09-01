@@ -3,6 +3,7 @@ import { Banner, Navbar } from "../components";
 import Talent from "../components/talents/Talent";
 import { useResponsiveJSX } from "../components/shared/useResponsiveJSX";
 import MobileNavigation from "../components/shared/MobileTabs";
+import MobileNavbar from "../components/shared/MobileNavbar";
 
 const Talents = () => {
 
@@ -18,6 +19,7 @@ const Talents = () => {
       {breakpoint !== 0 && showCommonContent}
       {breakpoint === 0 && (
         <main className="">
+           <MobileNavbar />
           <p>Talents not done</p>
           <MobileNavigation />
         </main>
